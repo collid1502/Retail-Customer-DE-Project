@@ -57,7 +57,7 @@ custData = pd.DataFrame.from_dict(custList)
 
 # write data out
 outPath = r"dataSources/custDBfiles/customerMasterExtract.csv"
-custData.to_csv(outPath, sep='\t', encoding='utf-8')
+custData.to_csv(outPath, sep='\t', encoding='utf-8', index=False)
 
 # exit Python script
 exit(0)
