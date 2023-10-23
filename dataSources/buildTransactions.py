@@ -9,8 +9,8 @@ import random
 # change as required 
 year = 2023
 month = 10
-startDay = 4
-endDay = 5
+startDay = 5
+endDay = 6
 
 # create the base Faker & seed it so as to remain constant 
 fake = Faker(locale='en_GB') # set to GB locale for fake data creation (i.e Postcodes etc)
