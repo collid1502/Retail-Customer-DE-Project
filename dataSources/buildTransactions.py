@@ -9,8 +9,8 @@ import random
 # change as required 
 year = 2023
 month = 10
-startDay = 5
-endDay = 6
+startDay = 6
+endDay = 7
 
 # create the base Faker & seed it so as to remain constant 
 fake = Faker(locale='en_GB') # set to GB locale for fake data creation (i.e Postcodes etc)
@@ -62,7 +62,7 @@ class customerIdGen(BaseProvider):
         Returns:
             int: random integer that acts as CustomerId 
         """
-        return random.randrange(start=10000, stop=100000)
+        return random.randrange(start=10000, stop=150000)
     
 
 # create a provider that will generate a volume of purhcase in transaction

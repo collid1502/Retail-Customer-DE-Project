@@ -36,7 +36,7 @@ joined_start = datetime.date(year=1990, month=1, day=1)
 joined_end = datetime.date(year=2023, month=10, day=1)
 
 custList = [] 
-for i in range(10000, 100000): # creates a range to loop through & builds Customer IDs
+for i in range(10000, 150000): # creates a range to loop through & builds Customer IDs
     newDict = {}
     newDict['customerID'] = i
     newDict['firstName'] = fake.first_name()
