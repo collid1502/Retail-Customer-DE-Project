@@ -12,4 +12,4 @@ This python script generates a sample CSV file that will act as a master copy of
 
 #### buildTransactions.py
 
-This python script can be used to generate transaction data. The idea is to create daily transaction files, which replicate back to customers and their purchases from a provided product list.
+This python script can be used to generate transaction data. The idea is to create daily transaction files, which replicate back to customers and their purchases from a provided product list
