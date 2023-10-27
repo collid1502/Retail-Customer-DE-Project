@@ -13,3 +13,15 @@ This python script generates a sample CSV file that will act as a master copy of
 #### buildTransactions.py
 
 This python script can be used to generate transaction data. The idea is to create daily transaction files, which replicate back to customers and their purchases from a provided product list
+
+
+----------------------------
+
+### Creating the files
+
+Run the `buildCustomerSource.py` to generate a mock customer base. Code currently set to generate 140,000 customers. This need only be run once (and a seed value is left in to ensure the same customers are created on each run). The same copy can be placed into different days on an S3 bucket data lake (to come later) to mimic RAW data from a system being pumped into S3. <br>
+
+As for transactions, run the `buildTransactions.py` file, ammending the date parameters if you plan to do multiple dates. I decided on running the script individually 3 times, to generate 2 separate CSVs of daily transactions.
+<br>
+
+No data will be saved in the repo, as it's mock data that can be recreated with the scripts when needed.
