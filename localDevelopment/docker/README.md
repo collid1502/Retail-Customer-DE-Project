@@ -4,4 +4,4 @@ The use of docker in local development should ease the transition of moving an a
 
 ## Docker Installation (Locally)
 
-Start by ... 
+Start by .. 
