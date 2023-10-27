@@ -4,7 +4,11 @@
 # open data portal through their endpoint
 
 # key imports 
-import polars as pl 
+import pandas as pd 
+from datetime import datetime 
+
+# capture start time of download process
+startTime = datetime.now()
 
 # here we list a subsection of metadata points we wish to obtain 
 colsToRead = [
@@ -21,19 +25,29 @@ countries = {
 }
 # the UK is made up of 4 separate countries. As such, we will individually collect/read each CSV
 # which is one per country, and append to a dataframe
-data_NI = pl.read_csv(countries['NI'], columns=colsToRead)
-data_Wales = pl.read_csv(countries['Wales'], columns=colsToRead)
-data_Scotland = pl.read_csv(countries['Scotland'], columns=colsToRead)
-data_England = pl.read_csv(countries['England'], columns=colsToRead) # will take the longest as is largest
 
-dfs = [data_NI, data_Wales, data_Scotland, data_England]
+data_NI = pd.read_csv(countries['NI'], usecols=colsToRead)
+data_Wales = pd.read_csv(countries['Wales'], usecols=colsToRead)
+data_Scotland = pd.read_csv(countries['Scotland'], usecols=colsToRead)
+
+# will take the longest as is largest
+eng_dfs = [] 
+for chunk in pd.read_csv(countries['England'], usecols=colsToRead, chunksize=500):
+    eng_dfs.append(chunk)
+
+data_England = pd.concat(eng_dfs, ignore_index=True) # combine all England chunks to one DF
 
 # once all countries have been done union dataframes into one
-postcodeData = pl.concat(dfs) 
+all_dfs = [data_NI, data_Wales, data_Scotland, data_England] 
+postcodeData = pd.concat(all_dfs, ignore_index=True) 
 
-# write df as parquet file to S3 location (for testing, local shared drive)
-writeLocation = r"dataSources/postcodeAPI/UKpostcodes.parquet"
-postcodeData.write_parquet(writeLocation, compression="snappy")
+# write df as csv file to S3 location (for testing, local shared drive)
+writeLocation = r"dataSources/postcodeAPI/UKpostcodes.csv"
+postcodeData.to_csv(writeLocation, index=False)
+
+# tracks duration of run 
+endTime = datetime.now()
+print('Duration: {}'.format(endTime - startTime))
 
 # end of process
 exit(0)
