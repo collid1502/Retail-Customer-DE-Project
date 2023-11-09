@@ -1,12 +1,10 @@
-# Terraform - AWS VPC
+# Terraform
+
+---------------------
+
+## Terraform - AWS VPC
 
 This section looks at how to build a VPC on AWS with Terraform
-
-**resource.tf** has the following code:
-
-```
-holder
-```
 
 ### cidr_block 
 
@@ -47,3 +45,15 @@ Instances (such as EC2 instances) launched in a subnet can be assigned security 
 **Use Cases:** Subnets allow you to organize and isolate your resources within the VPC. They are commonly used to separate different tiers of an application, such as web servers in a public subnet and database servers in a private subnet. Subnets also facilitate network segregation and help improve security.
 
 Subnets are a fundamental component of VPC networking in AWS. They provide flexibility, scalability, and control over your network architecture, allowing you to design and deploy a wide range of applications and services in a secure and efficient manner
+
+-------------
+
+## Terraform - EC2 
+
+Connect to the EC2 instance via SSH by using:
+
+```
+ssh -i "retail_SSH_key.pem" ec2-user@ec2-3-11-92-67.eu-west-2.compute.amazonaws.com
+```
+
+can exit connection by using "exit" 

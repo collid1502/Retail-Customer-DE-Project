@@ -6,4 +6,4 @@ This sub-directory will contain pipeline code and segments developed locally, be
 
 ### Docker
 
-holder 
+Inside the Docker folder, there will be different sub-sections where I explore using docker to develop on different services (locally) and explore how docker can be used to ship code / applications around more easily.
