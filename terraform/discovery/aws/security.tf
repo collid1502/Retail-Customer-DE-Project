@@ -7,7 +7,7 @@ name = "Retail_DE_security"
 vpc_id = "${aws_vpc.Retail_DE_VPC.id}"
 ingress {
     cidr_blocks = [
-        "92.238.132.152/32"
+        var.PUBLIC_IP # can use var.PUBLIC_ID if needed as have variable set 
     ] # Replace with your machine's public IP address
     
     from_port = 22
