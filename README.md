@@ -1,6 +1,6 @@
 # Creating an AWS Data Engineering Pipeline for a Retail Org
 
-### Foreword <br>
+### Foreword<br>
 This will be an example project created by myself, in order to utilise a combination of different tools and services, to showcase how they may be used within a classic data engineering example; collating retail data and customer records, which are then ETL'd to analytics tables for downstream use / analysis / visualisation.
 
 The proposal of the project is to use data sources gathered from the web, such as Kaggle Datasets, or Fake Data APIs etc. <br>
