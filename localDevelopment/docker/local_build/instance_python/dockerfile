@@ -5,8 +5,9 @@ FROM amazonlinux:2
 # this ensures we can download required software
 # commands can be chained to execute one after the other using &&
 # the RUN instruction is used to execute commands during the build process of the docker image
+# install requirements for conda, and the Java JDK in order to run apache spark 
 RUN yum -y update && \
-    yum -y install wget bzip2 gcc && \
+    yum -y install tar wget bzip2 gcc python3 java-1.8.0-openjdk-devel && \
     yum clean all
 
 ## ----- Install Miniconda (latest version)
@@ -35,6 +36,23 @@ RUN conda create -n $CONDA_ENV_NAME --yes python=3.10 pip pandas numpy jupyterla
 # the provided "/bin/bash" specifies the executable to use for the shell
 # the "-c" option tells the shell to execute the given command in non-interactive mode 
 SHELL ["/bin/bash", "-c"]
+
+## ----- Install Apache Spark
+# Set the Spark version and the Hadoop version compatible with the Spark version
+ARG SPARK_VERSION=3.4.2
+ARG HADOOP_VERSION=3
+
+# download and install spark 
+RUN wget https://downloads.apache.org/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz && \
+    tar xvf spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz -C /opt && \
+    rm spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz
+
+# Set environment variables for Spark
+ENV SPARK_HOME=/opt/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}
+ENV PATH=$PATH:$SPARK_HOME/bin
+
+# Activate Spark in the Conda environment
+RUN echo "source activate $CONDA_ENV_NAME && export PYSPARK_PYTHON=/root/miniconda3/envs/$CONDA_ENV_NAME/bin/python" >> ~/.bashrc
 
 ## ----- Expose Jupyter Notebook port to allow for notebooks
 EXPOSE 8888
