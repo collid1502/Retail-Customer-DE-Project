@@ -1,0 +1,11 @@
+version: '3'
+services:
+  retail_de_service:
+    image: local_aws_instance:dmc_master_1  # Replace with your <custom image name>:<tag>  if it's already been built 
+    #build: ./docker/instance_python/dockerfile  # If you need to build the image from a Dockerfile, spec the path to that docker file here (rebuilds image etc.)
+    volumes:
+      - type: bind
+        source: /home/collid/work/projects/data_engineering/customprojects/retailCompany_de_cloud/localDevelopment/docker/local_build/data # Replace with local folder path
+        target: /app/retail_de_project  # Path in the container where the volume is mounted
+    ports:
+      - "8080:8080"  # Map ports if needed (host:container)

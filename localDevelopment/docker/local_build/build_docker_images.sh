@@ -13,5 +13,6 @@
 # "." at the end represents the build context, which is the current directory
 
 ## 1 - AWS Linux 2 instance with Spark & Miniconda (virtual Python Env created & Jupyter installed)
-docker build -t local_aws_instance:latest -f instance_python/dockerfile .
+## format:  docker build -t >image_name>:<tag> -f <path/to/dockerfile> . 
+docker build -t local_aws_instance:dmc_master_1 -f instance_python/dockerfile .
 

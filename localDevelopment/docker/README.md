@@ -184,10 +184,6 @@ And thats the end of the guide for setting up Airflow locally with docker!
 
 ----------------------
 
-----------------------
+## Docker-Compose ane remote containers 
 
-## Docker and Amazon-Linux 2
-
-Given some services may run on AWS Linux 2, on EC2, wanted to explore using Docker to run AWS Linux 2 locally for development. 
-
-
+add details here ... 

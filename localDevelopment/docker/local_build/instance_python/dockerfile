@@ -28,7 +28,7 @@ ARG CONDA_ENV_NAME=retail_de
 # use --yes to avoid interactive prompts 
 RUN conda create -n $CONDA_ENV_NAME --yes python=3.10 pip pandas numpy jupyterlab \
     && source activate $CONDA_ENV_NAME \
-    && pip install pyspark pydeequ \
+    && pip install pyspark==3.3.4 pydeequ==1.2.0 \
     && source deactivate 
 
 ## ----- Activate shell
@@ -39,7 +39,8 @@ SHELL ["/bin/bash", "-c"]
 
 ## ----- Install Apache Spark
 # Set the Spark version and the Hadoop version compatible with the Spark version
-ARG SPARK_VERSION=3.4.2
+# PyDeequ only supports up to spark v3.3
+ARG SPARK_VERSION=3.3.4
 ARG HADOOP_VERSION=3
 
 # download and install spark 

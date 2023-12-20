@@ -1,0 +1,26 @@
+{
+  "name": "Retail DE ETL container", // name of the dev container
+  "dockerComposeFile": ".devcontainer/docker-compose.yml",
+  "service": "retail_de_service", // service name specified within docker compoase file spec'd above 
+  "workspaceFolder": "/app/retail_de_project", // the workspace folder `target` in the docker compose file binded to local file
+  "shutdownAction": "stopCompose", // shut down action (default for docker-compose)
+  "customizations": {
+    // Configure properties specific to VS Code.
+    "vscode": {
+      // Set *default* container specific settings.json values on container create. Such as extensions to install 
+      "settings": {
+        "window.openFoldersInNewWindow": "on" // should open a new vs-code window for the container
+      },
+      "extensions": [
+        "ms-python.python", // python extension
+        "ms-toolsai.jupyter", // jupyter ext
+        "formulahendry.code-runner", // code runner ext
+        "njpwerner.autodocstring", // auto docstring ext
+        "esbenp.prettier-vscode", // prettier vs code format ext
+        "ms-python.vscode-pylance", // pylance ext
+        "donjayamanne.python-environment-manager", // python cona env manager ext 
+        "vscode-icons-team.vscode-icons"  // vs-code icons extension 
+      ]
+    }
+  }
+}
