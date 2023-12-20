@@ -1,5 +1,9 @@
 # dev container
 
+Once a devconatiner & docker-compose had been built: 
+open a VS Code editor at the location of `.devcontainer` so its the root dir. Assuming you have the correct remote-dev extension installed (and docker running via your CLI/machine) you can use `ctrl + shift + p` to open command palette and open folder in container. It will let you identify the folder that contains your devcontainer.json etc. and can open a remote connection. Once this has been done once, it should now also be available in the remote-explorer tab (like where SSH/tunnels are) are target : containers. By creating a terminal, you should see your docker based terminal open. You can now also do file > open folder > ... which will let you navigate the file structure within your docker container, to your mounted workspace, for example. Everything built / saved at that workspace (provided mounted to a local drive correctly) will auto-replicate to the local space so you do not lose any work, and it exists each time you work in your container, and it can be involved in source control for a larger project!
+
+------------
 
 - Inside your project directory, create a .devcontainer folder.
 - Inside .devcontainer, create a devcontainer.json file. This file tells VS Code how to access your container. Here's an example configuration:
