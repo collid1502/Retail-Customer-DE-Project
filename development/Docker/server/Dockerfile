@@ -1,0 +1,77 @@
+## ----- Use AWS Linux 2 as the base image
+FROM amazonlinux:2
+
+## ----- Install basic dependencies
+# this ensures we can download required software
+# commands can be chained to execute one after the other using &&
+# the RUN instruction is used to execute commands during the build process of the docker image
+# install requirements for conda, and the Java JDK in order to run apache spark 
+RUN yum -y update && \
+    yum -y install tar wget bzip2 gcc python3 java-1.8.0-openjdk-devel && \
+    yum clean all
+
+## ----- Install Miniconda (latest version)
+# wget collects the miniconda install script & saves the output installer to /tmp/miniconda.sh
+# Then the next command  `bash /tmp/miniconda.sh -b -p /root/miniconda3` will execute the
+# shell script `miniconda.sh` to install miniconda. The -b command installs in batch mode (non-interactive)
+# and -p specifies the path to which miniconda should be installed at
+# finally, the installer script in the tmp folder is removed 
+ENV PATH="/root/miniconda3/bin:${PATH}"
+ARG MINICONDA_VERSION=latest
+RUN wget https://repo.anaconda.com/miniconda/Miniconda3-${MINICONDA_VERSION}-Linux-x86_64.sh -O /tmp/miniconda.sh && \
+    bash /tmp/miniconda.sh -b -p /root/miniconda3 && \
+    rm /tmp/miniconda.sh
+
+## ----- Create a Conda environment
+# use an ARG to provide dynamic conda environment name 
+ARG CONDA_ENV_NAME=retail_de
+# use --yes to avoid interactive prompts 
+RUN conda create -n $CONDA_ENV_NAME --yes python=3.10 pip pandas numpy jupyterlab \
+    && source activate $CONDA_ENV_NAME \
+    && pip install pyspark==3.3.4 pydeequ==1.2.0 \
+    && source deactivate 
+
+## ----- Activate shell
+# the SHELL instruction sets the default shell that will be used for subsequent RUN instructions
+# the provided "/bin/bash" specifies the executable to use for the shell
+# the "-c" option tells the shell to execute the given command in non-interactive mode 
+SHELL ["/bin/bash", "-c"]
+
+## ----- Install Apache Spark
+# Set the Spark version and the Hadoop version compatible with the Spark version
+# PyDeequ only supports up to spark v3.3
+ARG SPARK_VERSION=3.3.4
+ARG HADOOP_VERSION=3
+
+# use the archive location to get Spark 3.3.4
+# https://archive.apache.org/dist/spark/spark-3.3.4/spark-3.3.4-bin-hadoop3.tgz
+# download and install spark 
+RUN wget https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz && \
+    tar xvf spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz -C /opt && \
+    rm spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz
+
+# Set environment variables for Spark
+ENV SPARK_HOME=/opt/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}
+ENV PATH=$PATH:$SPARK_HOME/bin
+
+# Activate Spark in the Conda environment
+RUN echo "source activate $CONDA_ENV_NAME && export PYSPARK_PYTHON=/root/miniconda3/envs/$CONDA_ENV_NAME/bin/python" >> ~/.bashrc
+
+## ----- Expose Jupyter Notebook port to allow for notebooks
+EXPOSE 8888
+
+## ----- Set up a working directory
+WORKDIR /app
+# Create a directory for data storage (you can adjust the path)
+RUN mkdir /app/data
+
+# Mount host directory to container directory
+VOLUME ["/app/data"]
+# now, with the mount in place, when running the container, 
+# we can use the -v option to specify the volume mount, like so:
+# "docker run -v /path/on/host:/app/data -it myawsimage"
+# replace path/on/host with the absolute path on host machine to actually store data
+
+## ----- Start a shell 
+# (or another process) to keep the container running 
+#CMD ["/bin/bash", "-i"]
