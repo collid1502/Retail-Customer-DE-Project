@@ -10,6 +10,9 @@ RUN yum -y update && \
     yum -y install tar wget bzip2 gcc python3 java-1.8.0-openjdk-devel && \
     yum clean all
 
+## ----- Install Postgres SQL Client for programmatic access from CLI 
+RUN yum install -y postgresql
+
 ## ----- Install Miniconda (latest version)
 # wget collects the miniconda install script & saves the output installer to /tmp/miniconda.sh
 # Then the next command  `bash /tmp/miniconda.sh -b -p /root/miniconda3` will execute the

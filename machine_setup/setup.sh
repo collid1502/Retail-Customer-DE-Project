@@ -24,6 +24,12 @@ source ~/.bashrc
 # this script can install required software on the AWS Linux machine backing Cloud 9 EC2 instance 
 sudo yum update -y # update package manager 
 
+#=====================================================================================================
+# Install Postgres SQL client 
+sudo dnf install postgresql15.x86_64 postgresql15-server -y
+
+# you can check install has worked with: psql --version 
+
 # =====================================================================================================
 # Install Docker to build images, run containers etc. 
 sudo yum install -y docker
